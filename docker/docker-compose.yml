@@ -1,0 +1,62 @@
+version: '2'
+services:
+
+  frontend:
+    build: ./frontend
+    ports:
+        - "8081:80"
+    networks:
+        cybota:
+            ipv4_address: 172.200.200.3
+
+  backend:
+    ## read php image from our custom docker image ##
+    build: ./backend    
+    environment:
+        DB_PASSWORD: 
+        REDIS_PASSWORD:
+        MAIL_MAILER:
+        MAIL_HOST:
+        MAIL_PORT:
+        MAIL_USERNAME:
+        MAIL_PASSWORD:
+        MAIL_ENCRYPTION:
+        MAIL_FROM_ADDRESS:
+        MAIL_FROM_NAME:
+        RABBITMQ_PASSWORD:
+    ports:
+        - "8080:80"
+    networks:
+        cybota:
+            ipv4_address: 172.200.200.1
+
+  db:
+    image: mariadb   
+    volumes:
+      - mysql_db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: laravel_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: cveq_user
+      MYSQL_PASSWORD: root
+    networks:
+        cybota:
+            ipv4_address: 172.200.200.2
+      
+  redis:
+    image: redis
+    volumes:
+      - redis_data:/var/lib/redis
+    networks:
+        cybota:
+            ipv4_address: 172.200.200.4
+
+volumes:
+    mysql_db:  
+    redis_data: 
+networks: 
+    cybota:
+        driver: bridge
+        ipam:
+            config:
+            - subnet: 172.200.200.1/16  

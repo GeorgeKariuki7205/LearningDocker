@@ -1,0 +1,14 @@
+dockerisingLaravelApplication/.git
+dockerisingLaravelApplication/resources/js
+dockerisingLaravelApplication/resources/sass
+
+# will be created when building the image
+dockerisingLaravelApplication/bootstrap/cache/*
+
+# if you are using debugbar
+dockerisingLaravelApplication/storage/debugbar
+
+dockerisingLaravelApplication/storage/logs
+dockerisingLaravelApplication/storage/framework/cache/data
+dockerisingLaravelApplication/storage/framework/sessions/*
+dockerisingLaravelApplication/storage/framework/testing
