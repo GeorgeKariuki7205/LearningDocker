@@ -28,17 +28,17 @@ RUN apt-get update && apt-get install -y \
         zip \
         jpegoptim optipng pngquant gifsicle \
         unzip \
-        curl\
-        imagemagick \
-        php-cli\
-        unzip
-        
-RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl php7.4-common php7.4-mysql php7.4-xml php7.4-xmlrpc php7.4-curl php7.4-gd php7.4-imagick php7.4-cli php7.4-dev php7.4-imap php7.4-mbstring php7.4-opcache php7.4-soap php7.4-zip php7.4-intl
+        curl\        
+        imagemagick \        
+        unzip 
+        # libzip-dev   
+
+# RUN docker-php-ext-install pdo pdo_mysql zip exif pcntl  xml xmlrpc curl gd imap opcache soap zip intl
 # these directories need to be writable by Apache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # copy env file for our Docker image
-COPY .env /var/www/html/.env
+# COPY .env /var/www/html/.env
 
 RUN php artisan config:cache
 
@@ -46,6 +46,9 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 
 ### Docker image metadata
+COPY  entrypoint.sh /
+RUN chmod u+x /entrypoint.sh 
+# VOLUME ["/var/www/html/storage", "/var/www/html/bootstrap/cache"]
 
-VOLUME ["/var/www/html/storage", "/var/www/html/bootstrap/cache"]
+CMD /entypoint.sh
 

@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
   frontend:
@@ -9,21 +9,17 @@ services:
         cybota:
             ipv4_address: 172.200.200.3
 
-  backend:
-    ## read php image from our custom docker image ##
+  backend:    
     build: ./backend    
     environment:
-        DB_PASSWORD: 
-        REDIS_PASSWORD:
-        MAIL_MAILER:
+        MYSQL_PASSWORD:             
         MAIL_HOST:
         MAIL_PORT:
         MAIL_USERNAME:
-        MAIL_PASSWORD:
-        MAIL_ENCRYPTION:
-        MAIL_FROM_ADDRESS:
-        MAIL_FROM_NAME:
+        MAIL_PASSWORD:                        
         RABBITMQ_PASSWORD:
+        REDIS_PASSWORD:
+        RABBITMQ_USER:
     ports:
         - "8080:80"
     networks:
@@ -50,6 +46,12 @@ services:
     networks:
         cybota:
             ipv4_address: 172.200.200.4
+
+  rabbitmq:
+    build: ./backend/RabbitMq    
+    networks:
+      cybota:
+          ipv4_address: 172.200.200.5
 
 volumes:
     mysql_db:  
